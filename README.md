@@ -1,0 +1,1 @@
+# plataforma-proyecto-smart-citie
