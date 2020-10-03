@@ -1,1 +1,1 @@
-# plataforma-proyecto-smart-citie
+# plataforma-proyecto-smart-cities
