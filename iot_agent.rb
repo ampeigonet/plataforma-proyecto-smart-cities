@@ -18,7 +18,7 @@ module Agent
           apikey: API_KEY,
           cbroker: CONTEXT_BROKER,
           entity_type: 'Vehicle',
-          resource: '/iot/d'
+          resource: '/iot/json'
         }
       ]
     }
@@ -41,9 +41,6 @@ module Agent
           entity_type: "Vehicle",
           attributes: [
             { object_id: "location", name: "location", type: "geo:point" }
-          ],
-          static_attributes: [
-            { name: "linea", type: "linea", value: bus_number.to_s }
           ]
         }
       ]
@@ -64,11 +61,11 @@ module Agent
     }
 
     http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type': 'text/plain'})
+    request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type': 'application/json'})
     request.body = payload.to_json
 
     response = http.request(request)
 
-    puts response
+    puts response.body
   end
 end
