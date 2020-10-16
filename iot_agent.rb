@@ -56,16 +56,12 @@ module Agent
   def send_measurement(device_id, location)
     uri = URI.parse("#{IOT_AGENT_N}/iot/json?k=#{API_KEY}&i=#{device_id}")
 
-    payload = {
-      location: location.to_s.tr('[]', '')
-    }
-
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type': 'application/json'})
-    request.body = payload.to_json
+    request.body = { location: location.to_s.tr('[]', '') }.to_json
 
     response = http.request(request)
 
-    puts response.body
+    puts "Sending measurement #{location.to_s}"
   end
 end
