@@ -3,13 +3,13 @@ module Agent
   require 'uri'
   require 'json'
 
-  CONTEXT_BROKER = 'http://orion:1026'
-  IOT_AGENT_S = 'http://localhost:4041'
-  IOT_AGENT_N = 'http://localhost:7896'
-  API_KEY = 'api_key'
-  HEADERS = {'Content-Type': 'application/json', 'fiware-service': 'openiot', 'fiware-servicepath': '/'}
+  CONTEXT_BROKER = 'http://orion:1026'.freeze
+  IOT_AGENT_S = 'http://localhost:4041'.freeze
+  IOT_AGENT_N = 'http://localhost:7896'.freeze
+  API_KEY = 'api_key'.freeze
+  HEADERS = { 'Content-Type': 'application/json', 'fiware-service': 'openiot', 'fiware-servicepath': '/' }.freeze
 
-  def provide_service_group()
+  def provide_service_group
     uri = URI.parse("#{IOT_AGENT_S}/iot/services")
 
     payload = {
@@ -30,7 +30,7 @@ module Agent
     response = http.request(request)
   end
 
-  def create_gps_sensor(id, bus_number)
+  def create_gps_sensor(id, _bus_number)
     uri = URI.parse("#{IOT_AGENT_S}/iot/devices")
 
     payload = {
@@ -38,9 +38,9 @@ module Agent
         {
           device_id: id.to_s,
           entity_name: "urn:ngsi-ld:Vehicle:#{id}",
-          entity_type: "Vehicle",
+          entity_type: 'Vehicle',
           attributes: [
-            { object_id: "location", name: "location", type: "geo:point" }
+            { object_id: 'location', name: 'location', type: 'geo:point' }
           ]
         }
       ]
@@ -53,14 +53,15 @@ module Agent
     response = http.request(request)
   end
 
-  def send_measurement(device_id, location)
+  def send_measurement(device_id, _location)
+    puts device_id
     uri = URI.parse("#{IOT_AGENT_N}/iot/json?k=#{API_KEY}&i=#{device_id}")
 
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type': 'application/json'})
     request.body = { location: location.to_s.tr('[]', '') }.to_json
 
-    response = http.request(request)
+    puts payload.to_json
 
     puts "Sending measurement #{location.to_s}"
   end
