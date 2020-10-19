@@ -39,6 +39,13 @@ services:
     ports:
       - "${MONITOR_PORT}:${MONITOR_PORT}"
 
+  pygeoapi:
+    image: pygeoapi-modd:latest
+    expose:
+      - "5005"
+    ports:
+      - "5005:80"
+
   # IoT-Agent is configured for the Json Protocol
   iot-agent:
     image: fiware/iotagent-json:latest
@@ -69,26 +76,6 @@ services:
         - IOTA_HTTP_PORT=7896
         - IOTA_PROVIDER_URL=http://iot-agent:4041
         - IOTA_DEFAULT_RESOURCE=/iot/json
-
-  # Detour monitor
-  # nodejs:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   image: nodejs
-  #   container_name: nodejs
-  #   restart: unless-stopped
-  #   env_file: .env
-  #   environment:
-  #   ports:
-  #     - "3001:3001"
-  #   volumes:
-  #     - .:/home/node/app
-  #     - node_modules:/home/node/app/node_modules
-  #   networks:
-  #     - app-network
-  #     # revisar comando, no agregué el bash porque no tenemos DB así que creo que no va, pero revisar
-  #   command: ./wait-for.sh db:27017 -- /home/node/app/node_modules/.bin/nodemon app.js
 
   # Databases
   mongo-db:
