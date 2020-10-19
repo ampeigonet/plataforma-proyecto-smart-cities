@@ -40,11 +40,11 @@ services:
       - "${MONITOR_PORT}:${MONITOR_PORT}"
 
   pygeoapi:
-    image: pygeoapi-modd:latest
+    image: pygeoapi
     expose:
-      - "5005"
+      - "5000"
     ports:
-      - "5005:80"
+      - "5000:5000"
 
   # IoT-Agent is configured for the Json Protocol
   iot-agent:
