@@ -39,12 +39,33 @@ services:
     ports:
       - "${MONITOR_PORT}:${MONITOR_PORT}"
 
-  pygeoapi:
-    image: pygeoapi
-    expose:
-      - "5000"
+  # pygeoapi:
+  #   image: pygeoapi
+  #   expose:
+  #     - "5000"
+  #   ports:
+  #     - "5000:5000"
+
+  postgres:
+    image: kartoza/postgis:12.0
+    build:
+      context: ${PWD}
+    volumes:
+      - $PWD/../data/smartcitiesdb.sql:/docker-entrypoint-initdb.d/setup-db.sql
+    environment:
+      # If you need to create multiple database you can add coma separated databases eg gis,data
+      - POSTGRES_DB=gis
+      - POSTGRES_USER=docker
+      - POSTGRES_PASS=docker
+      - PGPASSWORD=docker
+      - ALLOW_IP_RANGE=0.0.0.0/0
+      # Add extensions you need to be enabled by default in the DB. Default are the five specified below
+      - POSTGRES_MULTIPLE_EXTENSIONS=postgis,hstore,postgis_topology,postgis_raster,pgrouting
     ports:
-      - "5000:5000"
+      - 25432:5432
+    restart: on-failure
+    healthcheck:
+      test: "exit 0"
 
   # IoT-Agent is configured for the Json Protocol
   iot-agent:
