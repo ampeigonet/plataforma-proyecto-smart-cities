@@ -30,7 +30,7 @@ module Agent
     response = http.request(request)
   end
 
-  def create_gps_sensor(id, _bus_number)
+  def create_gps_sensor(id, bus_number)
     uri = URI.parse("#{IOT_AGENT_S}/iot/devices")
 
     payload = {
@@ -39,6 +39,9 @@ module Agent
           device_id: id.to_s,
           entity_name: "urn:ngsi-ld:Vehicle:#{id}",
           entity_type: 'Vehicle',
+          static_attributes: [
+            { name: "linea", type: "Text", value: bus_number.to_s }
+          ],
           attributes: [
             { object_id: 'location', name: 'location', type: 'geo:point' }
           ]
@@ -53,15 +56,13 @@ module Agent
     response = http.request(request)
   end
 
-  def send_measurement(device_id, _location)
+  def send_measurement(device_id, location)
     puts device_id
     uri = URI.parse("#{IOT_AGENT_N}/iot/json?k=#{API_KEY}&i=#{device_id}")
 
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type': 'application/json'})
     request.body = { location: location.to_s.tr('[]', '') }.to_json
-
-    puts payload.to_json
 
     puts "Sending measurement #{location.to_s}"
   end
