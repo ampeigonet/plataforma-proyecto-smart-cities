@@ -64,6 +64,8 @@ module Agent
     request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type': 'application/json'})
     request.body = { location: location.to_s.tr('[]', '') }.to_json
 
+    response = http.request(request)
+
     puts "Sending measurement #{location.to_s}"
   end
 end
