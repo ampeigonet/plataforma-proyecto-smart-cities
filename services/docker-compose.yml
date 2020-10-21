@@ -39,12 +39,10 @@ services:
     ports:
       - "${MONITOR_PORT}:${MONITOR_PORT}"
 
-  # pygeoapi:
-  #   image: pygeoapi
-  #   expose:
-  #     - "5000"
-  #   ports:
-  #     - "5000:5000"
+  pygeoapi:
+    image: pygeoapi
+    ports:
+      - "5000:5000"
 
   postgres:
     image: kartoza/postgis:12.0
@@ -62,7 +60,7 @@ services:
       # Add extensions you need to be enabled by default in the DB. Default are the five specified below
       - POSTGRES_MULTIPLE_EXTENSIONS=postgis,hstore,postgis_topology,postgis_raster,pgrouting
     ports:
-      - 25432:5432
+      - "25432:5432"
     restart: on-failure
     healthcheck:
       test: "exit 0"
