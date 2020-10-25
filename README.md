@@ -1,17 +1,22 @@
 # plataforma-proyecto-smart-cities
 
-# Simulador GPS
+Crear gps sensor:
 
-Es un script hecho en ruby que se encarga de imprimir datos de posición cada 5 segundos. El resto de la información es la 
-requerida para el formato NGSI-LD.
+- `ruby gps_sensor_setup.rb <DEVICE_ID> <LINEA> <SUBLINEA> <SENTIDO>`
 
-## Para correr el simulador
+  - `DEVICE_ID`: puede ser cualquier id para caracterizar el sensor en sí. Se usa para obtener/escribir datos en el Context Broker.
+  - `LINEA`: Número que identifica una línea. Por ejemplo, 405, 192, 300.
+  - `SUBLINEA`: Número que identifica sublínea dentro de la línea cuando tienen más de un recorrido en ambos sentidos. Se puede ver el número y más información sobre el campo en [datos abiertos](https://catalogodatos.gub.uy/dataset/intendencia-montevideo-lineas-omnibus-origen-y-destino)
+  - `SENTIDO`: A o B. Sentido en el que va el ómnibus, por más info consultar [datos abiertos](https://catalogodatos.gub.uy/dataset/intendencia-montevideo-lineas-omnibus-origen-y-destino)
 
-En una consola hacer `ruby gps_simulator.rb`
 
-### Notas:
+Simular datos:
+Recorridos sin desvío
+- `ruby gps_simulator.rb <DEVICE_ID> <LINEA> <SUBLINEA> <SENTIDO>`
 
-- Por ahora sólo corre una línea (Bus 405)
-- En el futuro además de imprimir va a hablar con el agente correspondiente para actualizar información
-- La información de las coordenadas está en texto plano como un array. En el futuro vamos a tener dumps con datos para la simulación
-para distintas líneas.
+Mismos campos que los que se usen para crear el sensor.
+
+Recorrido con desvío
+- `ruby gps_simulator.rb <DEVICE_ID> <LINEA> d`
+
+Busca el archivo `desvio<LINEA>.geojson`. Por ahora el único disponible es para el 405 (desvío para sublinea 3, sentido B)
