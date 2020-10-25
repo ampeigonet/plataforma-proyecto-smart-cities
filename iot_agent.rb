@@ -30,7 +30,7 @@ module Agent
     response = http.request(request)
   end
 
-  def create_gps_sensor(id, bus_number)
+  def create_gps_sensor(id, linea, sublinea, sentido)
     uri = URI.parse("#{IOT_AGENT_S}/iot/devices")
 
     payload = {
@@ -40,7 +40,9 @@ module Agent
           entity_name: "urn:ngsi-ld:Vehicle:#{id}",
           entity_type: 'Vehicle',
           static_attributes: [
-            { name: "linea", type: "Text", value: bus_number.to_s }
+            { name: "linea", type: "Text", value: linea.to_s },
+            { name: "sublinea", type: "Text", value: sublinea.to_s },
+            { name: "sentido", type: "Text", value: sentido.to_s }
           ],
           attributes: [
             { object_id: 'location', name: 'location', type: 'geo:point' }
