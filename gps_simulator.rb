@@ -8,17 +8,22 @@ include Coordinates
 include Agent
 include ContextBroker
 
-# Esto va a venir de un dump de posiciones algún día.
-coordinates_array = Coordinates::BUS_405
-
 device_id = ARGV[0]
-coordinate_index = 0
+linea = ARGV[1]
+sublinea = ARGV[2]
+sentido = ARGV[3]
+file_for_coordinates = ARGV[4]
 
-while true
-    coordinate_index +=1
-    coordinates = coordinates_array.dig(coordinate_index)
+coord_array = []
 
-    send_measurement(device_id, coordinates_array.dig(coordinate_index))
+if sublinea != 'd'
+    coord_array = get_coordinates(file_for_coordinates, linea, sublinea, sentido)
+else
+    coord_array = get_desvio(linea)
+end
+
+coord_array.each do |coord|
+    send_measurement(device_id, coord)
 
     sleep 5
 end
