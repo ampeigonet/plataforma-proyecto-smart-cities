@@ -1,0 +1,23 @@
+{
+"type": "FeatureCollection",
+"name": "sensores_banderas",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "id": 1, "id_playa": 1 }, "geometry": { "type": "Point", "coordinates": [ -56.171830627630456, -34.915241199165258 ] } },
+{ "type": "Feature", "properties": { "id": 2, "id_playa": 1 }, "geometry": { "type": "Point", "coordinates": [ -56.170965005058626, -34.915915529085666 ] } },
+{ "type": "Feature", "properties": { "id": 3, "id_playa": 1 }, "geometry": { "type": "Point", "coordinates": [ -56.1699997285655, -34.916643590607464 ] } },
+{ "type": "Feature", "properties": { "id": 4, "id_playa": 2 }, "geometry": { "type": "Point", "coordinates": [ -56.14733373483233, -34.917166890450169 ] } },
+{ "type": "Feature", "properties": { "id": 5, "id_playa": 2 }, "geometry": { "type": "Point", "coordinates": [ -56.145732427437089, -34.915495880543467 ] } },
+{ "type": "Feature", "properties": { "id": 6, "id_playa": 2 }, "geometry": { "type": "Point", "coordinates": [ -56.144458655017161, -34.914099248333613 ] } },
+{ "type": "Feature", "properties": { "id": 7, "id_playa": 2 }, "geometry": { "type": "Point", "coordinates": [ -56.143217954403731, -34.912702835952246 ] } },
+{ "type": "Feature", "properties": { "id": 8, "id_playa": 2 }, "geometry": { "type": "Point", "coordinates": [ -56.142305314770532, -34.911526400686434 ] } },
+{ "type": "Feature", "properties": { "id": 9, "id_playa": 2 }, "geometry": { "type": "Point", "coordinates": [ -56.141262572514499, -34.910158574539672 ] } },
+{ "type": "Feature", "properties": { "id": 10, "id_playa": 3 }, "geometry": { "type": "Point", "coordinates": [ -56.122814460989169, -34.902462651894673 ] } },
+{ "type": "Feature", "properties": { "id": 11, "id_playa": 3 }, "geometry": { "type": "Point", "coordinates": [ -56.12170089479514, -34.901583914263185 ] } },
+{ "type": "Feature", "properties": { "id": 12, "id_playa": 3 }, "geometry": { "type": "Point", "coordinates": [ -56.120489731055315, -34.900568414090323 ] } },
+{ "type": "Feature", "properties": { "id": 13, "id_playa": 3 }, "geometry": { "type": "Point", "coordinates": [ -56.119473252857908, -34.899880823340929 ] } },
+{ "type": "Feature", "properties": { "id": 14, "id_playa": 3 }, "geometry": { "type": "Point", "coordinates": [ -56.118458535973538, -34.899029981493292 ] } },
+{ "type": "Feature", "properties": { "id": 15, "id_playa": 3 }, "geometry": { "type": "Point", "coordinates": [ -56.117574185348317, -34.89834333319871 ] } },
+{ "type": "Feature", "properties": { "id": 16, "id_playa": 3 }, "geometry": { "type": "Point", "coordinates": [ -56.116623512921578, -34.897683405741198 ] } }
+]
+}
