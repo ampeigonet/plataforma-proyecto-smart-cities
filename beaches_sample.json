@@ -1,0 +1,52 @@
+[
+    {
+        "id": "0",
+        "name": "name",
+        "location": "[lat, long]",
+        "people_sensors": [
+            {
+                "id": "1",
+                "location": "[lat, long]",
+                "value_max_range": 3,
+                "value_min_range": 1,
+                "random_seed": 1,
+                "random_std_deviation": 1,
+                "frozen": false
+            }
+        ],
+        "tide_sensors": [
+            {
+                "id": "2",
+                "location": "[lat, long]",
+                "value_max_range": 0,
+                "value_min_range": 0,
+                "random_seed": 1,
+                "random_std_deviation": 1,
+                "frozen": false
+            }
+        ],
+        "uv_sensors": [
+            {
+                "id": "3",
+                "location": "[lat, long]",
+                "value_max_range": 0,
+                "value_min_range": 0,
+                "random_seed": 1,
+                "random_std_deviation": 1,
+                "frozen": false
+            }
+        ],
+        "water_quality_sensors": [
+            {
+                "id": "3",
+                "location": "[lat, long]",
+                "value_max_range": 0,
+                "value_min_range": 0,
+                "random_seed": 1,
+                "random_std_deviation": 1,
+                "frozen": false
+            }
+        ],
+        "people_capacity": 1000
+    }
+]
