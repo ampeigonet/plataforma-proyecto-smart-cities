@@ -23,7 +23,7 @@ else
 end
 
 coord_array.each do |coord|
-    send_measurement(device_id, coord)
+    send_measurement(device_id, coord, { location: coord.to_s.tr('[]', '') })
 
     sleep 5
 end

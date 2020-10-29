@@ -24,6 +24,7 @@ beaches_data_json.each do |beach_data|
     beach_data["people_capacity"],
     true
   )
+  Agent.provide_service_group("Device")
 end
 
 threads = []

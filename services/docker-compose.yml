@@ -18,18 +18,18 @@ services:
       test: curl --fail -s http://orion:${ORION_PORT}/version || exit 1
 
   # Quantum Leap is persisting Short Term History to Crate-DB
-  quantumleap:
-    image: smartsdk/quantumleap:${QUANTUMLEAP_VERSION}
-    hostname: quantumleap
-    container_name: fiware-quantumleap
-    ports:
-      - "${QUANTUMLEAP_PORT}:${QUANTUMLEAP_PORT}"
-    depends_on:
-      - crate-db
-    environment:
-      - CRATE_HOST=crate-db
-    healthcheck:
-      test: curl --fail -s http://quantumleap:${QUANTUMLEAP_PORT}/v2/version || exit 1
+  # quantumleap:
+  #   image: smartsdk/quantumleap:${QUANTUMLEAP_VERSION}
+  #   hostname: quantumleap
+  #   container_name: fiware-quantumleap
+  #   ports:
+  #     - "${QUANTUMLEAP_PORT}:${QUANTUMLEAP_PORT}"
+  #   depends_on:
+  #     - crate-db
+  #   environment:
+  #     - CRATE_HOST=crate-db
+  #   healthcheck:
+  #     test: curl --fail -s http://quantumleap:${QUANTUMLEAP_PORT}/v2/version || exit 1
 
   pocmonitordesvios:
     image: pocmonitordesvios
@@ -115,31 +115,31 @@ services:
         host=`hostname --ip-address || echo '127.0.0.1'`;
         mongo --quiet $host/test --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)' && echo 0 || echo 1
 
-  crate-db:
-    image: crate:${CRATE_VERSION:-3.1.2}
-    hostname: crate-db
-    container_name: db-crate
-    ports:
-      # Admin UI
-      - "4200:4200"
-      # Transport protocol
-      - "4300:4300"
-    command: crate -Clicense.enterprise=false -Cauth.host_based.enabled=false  -Ccluster.name=democluster -Chttp.cors.enabled=true -Chttp.cors.allow-origin="*"
-    volumes:
-      - crate-db:/data
+  # crate-db:
+  #   image: crate:${CRATE_VERSION:-3.1.2}
+  #   hostname: crate-db
+  #   container_name: db-crate
+  #   ports:
+  #     # Admin UI
+  #     - "4200:4200"
+  #     # Transport protocol
+  #     - "4300:4300"
+  #   command: crate -Clicense.enterprise=false -Cauth.host_based.enabled=false  -Ccluster.name=democluster -Chttp.cors.enabled=true -Chttp.cors.allow-origin="*"
+  #   volumes:
+  #     - crate-db:/data
 
   # Other services
-  grafana:
-    image: grafana/grafana:6.1.6
-    container_name: grafana
-    depends_on:
-      - crate-db
-    ports:
-      - "3003:3000"
-    environment:
-      - GF_INSTALL_PLUGINS=https://github.com/orchestracities/grafana-map-plugin/archive/master.zip;grafana-map-plugin,grafana-clock-panel,grafana-worldmap-panel
-    volumes:
-      - grafana:/var/lib/grafana
+  # grafana:
+  #   image: grafana/grafana:6.1.6
+  #   container_name: grafana
+  #   depends_on:
+  #     - crate-db
+  #   ports:
+  #     - "3003:3000"
+  #   environment:
+  #     - GF_INSTALL_PLUGINS=https://github.com/orchestracities/grafana-map-plugin/archive/master.zip;grafana-map-plugin,grafana-clock-panel,grafana-worldmap-panel
+  #   volumes:
+  #     - grafana:/var/lib/grafana
 
 networks:
   default:

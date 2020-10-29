@@ -1,0 +1,29 @@
+require_relative 'plataforma-proyecto-smart-cities/sensors/beach/beach_sensor.rb'
+require_relative 'plataforma-proyecto-smart-cities/sensors/beach/beach.rb'
+BeachSensor.new(1, 1, 2, 0, 1, 0.5, 1)
+sensor.generate_data
+
+
+sensor_data = [{
+  id: 1
+  location: 1,
+  value_max_range: 5,
+  value_min_range: 0,
+  random_seed: 1,
+  random_std_deviation: 2,
+  random_enabled: true
+}]
+
+sensor_data = [{id: 1, location: 1, value_max_range: 5, value_min_range: 0, random_seed: 1, random_std_deviation: 2, random_enabled: true}]
+
+beach = Beach.new(1,'kek',1,sensor_data,[],[],[],100)
+
+beach.start
+
+sensor_data[:id],
+sensor_data[:location],
+sensor_data[:value_max_range],
+sensor_data[:value_min_range],
+sensor_data[:random_seed],
+sensor_data[:random_std_deviation],
+sensor_data[:random_enabled])

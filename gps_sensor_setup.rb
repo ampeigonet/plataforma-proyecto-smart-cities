@@ -4,7 +4,7 @@ require_relative "context_broker"
 include Agent
 include ContextBroker
 
-provide_service_group()
+provide_service_group("Vehicle")
 
 device_id = ARGV[0]
 linea = ARGV[1]

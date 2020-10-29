@@ -11,7 +11,7 @@ class BeachSensor
   attr_accessor :frozen
   attr_accessor :alive
 
-  def initialize(id, location, value_max_range, value_min_range, random_seed, random_std_deviation, frozen)
+  def initialize(id, location, value_max_range, value_min_range, random_seed, random_std_deviation, frozen, type)
     @id = id
     @location = location
     @value_max_range  = value_max_range
@@ -19,6 +19,7 @@ class BeachSensor
     @random_seed = random_seed
     @random_std_deviation = random_std_deviation
     @frozen = frozen
+    @type = type
     @alive = true
     
     @math_processor = Maths.new
@@ -37,6 +38,9 @@ class BeachSensor
       puts "sensor#{id} max: #{value_max_range}"
       puts "sensor#{id} #{debug_type} has reading #{reading}"
     end
+
+    payload = { "value": reading.to_s }
+    Agent.send_measurement(@id, payload)
     reading
   end
 
