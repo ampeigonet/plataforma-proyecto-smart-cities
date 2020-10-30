@@ -4,14 +4,14 @@ class BeachSensor
   attr_accessor :id
   attr_accessor :location
 
-  attr_accessor :value_max_range 
-  attr_accessor :value_min_range 
+  attr_accessor :value_max_range
+  attr_accessor :value_min_range
   attr_accessor :random_seed
   attr_accessor :random_std_deviation
   attr_accessor :frozen
   attr_accessor :alive
 
-  def initialize(id, location, value_max_range, value_min_range, random_seed, random_std_deviation, frozen)
+  def initialize(id, location, value_max_range, value_min_range, random_seed, random_std_deviation, frozen, type)
     @id = id
     @location = location
     @value_max_range  = value_max_range
@@ -19,8 +19,9 @@ class BeachSensor
     @random_seed = random_seed
     @random_std_deviation = random_std_deviation
     @frozen = frozen
+    @type = type
     @alive = true
-    
+
     @math_processor = Maths.new
     Kernel.srand(random_seed)
     @math_processor.initialize_gaussian(5, 2)
@@ -37,6 +38,9 @@ class BeachSensor
       puts "sensor#{id} max: #{value_max_range}"
       puts "sensor#{id} #{debug_type} has reading #{reading}"
     end
+
+    payload = { "value": reading.to_s }
+    Agent.send_measurement(@id, payload)
     reading
   end
 

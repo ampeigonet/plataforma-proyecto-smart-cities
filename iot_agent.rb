@@ -9,30 +9,22 @@ module Agent
   API_KEY = 'api_key'.freeze
   HEADERS = { 'Content-Type': 'application/json', 'fiware-service': 'openiot', 'fiware-servicepath': '/' }.freeze
 
-  def provide_service_group
-    uri = URI.parse("#{IOT_AGENT_S}/iot/services")
-
+  def provide_service_group(type)
     payload = {
       services: [
         {
           apikey: API_KEY,
           cbroker: CONTEXT_BROKER,
-          entity_type: 'Vehicle',
+          entity_type: "#{type}",
           resource: '/iot/json'
         }
       ]
     }
 
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Post.new(uri.request_uri, HEADERS)
-    request.body = payload.to_json
-
-    response = http.request(request)
+    do_create_service_group(payload)
   end
 
   def create_gps_sensor(id, linea, sublinea, sentido)
-    uri = URI.parse("#{IOT_AGENT_S}/iot/devices")
-
     payload = {
       devices: [
         {
@@ -51,6 +43,49 @@ module Agent
       ]
     }
 
+    do_create_sensor(payload)
+  end
+
+  def create_beach_sensor(id, beach_id, location, type)
+    payload = {
+      devices: [
+        {
+          device_id: id.to_s,
+          entity_name: "urn:ngsi-ld:Device:#{id}",
+          entity_type: 'Device',
+          static_attributes: [
+            { name: "id", type: "Text", value: id.to_s },
+            { name: "location", type: "geo:point", value: location.to_s },
+            { name: "beach_id", type: "Text", value: beach_id.to_s },
+            { name: "type", type: "Text", value: type.to_s }
+          ],
+          attributes: [
+            { object_id: "value", name: "value", type: "Text" }
+          ]
+        }
+      ]
+    }
+    do_create_sensor(payload)
+  end
+
+  def send_measurement(device_id, payload)
+    puts device_id
+    uri = URI.parse("#{IOT_AGENT_N}/iot/json?k=#{API_KEY}&i=#{device_id}")
+
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type': 'application/json'})
+    request.body = payload.to_json
+
+    response = http.request(request)
+
+    puts "Sending measurement #{payload[:location].to_s}"
+  end
+
+  private
+
+  def do_create_sensor(payload)
+    uri = URI.parse("#{IOT_AGENT_S}/iot/devices")
+
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Post.new(uri.request_uri, HEADERS)
     request.body = payload.to_json
@@ -58,16 +93,13 @@ module Agent
     response = http.request(request)
   end
 
-  def send_measurement(device_id, location)
-    puts device_id
-    uri = URI.parse("#{IOT_AGENT_N}/iot/json?k=#{API_KEY}&i=#{device_id}")
+  def do_create_service_group(payload)
+    uri = URI.parse("#{IOT_AGENT_S}/iot/services")
 
     http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type': 'application/json'})
-    request.body = { location: location.to_s.tr('[]', '') }.to_json
+    request = Net::HTTP::Post.new(uri.request_uri, HEADERS)
+    request.body = payload.to_json
 
     response = http.request(request)
-
-    puts "Sending measurement #{location.to_s}"
   end
 end

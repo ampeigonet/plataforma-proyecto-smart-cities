@@ -1,4 +1,5 @@
 require_relative 'beach_sensor'
+require_relative "../../iot_agent"
 
 class Beach
   attr_accessor :id
@@ -10,18 +11,18 @@ class Beach
     @name = name
     @location = location
 
-    @people_sensors = people_sensors.map { |sensor_data| create_sensor(sensor_data) }
-    @tide_sensors = tide_sensors.map { |sensor_data| create_sensor(sensor_data) }
-    @uv_sensors = uv_sensors.map { |sensor_data| create_sensor(sensor_data) }
-    @water_quality_sensors = water_quality_sensors.map { |sensor_data| create_sensor(sensor_data) }
-    
+    @people_sensors = people_sensors.map { |sensor_data| create_sensor(sensor_data, "people") }
+    @tide_sensors = tide_sensors.map { |sensor_data| create_sensor(sensor_data, "tide") }
+    @uv_sensors = uv_sensors.map { |sensor_data| create_sensor(sensor_data, "uv") }
+    @water_quality_sensors = water_quality_sensors.map { |sensor_data| create_sensor(sensor_data, "water_quality") }
+
     @people_capacity = people_capacity
     @current_people = 0
 
     @max_pop_inc_tick = 5
     @pop_dec_tick = 10
     @max_dec_tick = 15
-    
+
     @debug = debug
   end
 
@@ -56,7 +57,8 @@ class Beach
 
   private
 
-  def create_sensor(sensor_data)
+  def create_sensor(sensor_data, type)
+    Agent.create_beach_sensor(sensor_data["id"], @id, sensor_data["location"], type)
     BeachSensor.new(
       sensor_data["id"],
       sensor_data["location"],
@@ -64,7 +66,8 @@ class Beach
       sensor_data["value_min_range"],
       sensor_data["random_seed"],
       sensor_data["random_std_deviation"],
-      sensor_data["radnom_enabled"]
+      sensor_data["random_enabled"],
+      type
     )
   end
 
@@ -73,11 +76,11 @@ class Beach
       sensors.each do |sensor|
         debug_string = @debug ? 'people' : ""
         @current_people += sensor.send_and_generate(debug_string)
-        
+
         adjust_mean_and_std(sensors, ticks)
-        
+
         adjust_based_on_people(sensors)
-        
+
         sensor.frozen = freeze
       end
     else
