@@ -64,3 +64,18 @@ A su vez un array de tipo sensor es un objeto con los siguientes campos:
 Los sensores dan sus datos segun una distribucion normal, con media = promedio de los enteros del rango `[value_min_range..value_max_range]`.
 
 Los sensores persona ademas tienen un ajuste gradual del minimo y maximo a medida que se evoluciona para simular "el paso del tiempo". En horas tempranas del dia, las personas que llegan a la playa van en aumento hasta que a partir de una hora las personas empiezan a irse. Estos cambios son acelerados, es decir que el incremento de personas aumenta a partir de un momento y lo mismo sucede con el egreso.
+
+## Geenrando datos de playa a partir de geojson
+
+El script `create_beaches_json.py` genera el json explicado anteriormente a partir de datos geojson. Toma dos argumentos, el primero es donde esta el archivo geojson de las playas, y el segundo es el nombre del archivo de salida. Ej:
+
+```
+ $ python3 create_beaches_json.py playas.geojson beaches.json
+```
+
+Los datos en geojson de sensores deben llamarse de la siguiente manera y deben estar en la misma carpeta del script:
+
+ - sensores_agua
+ - sensores_bandera
+ - sensores_personas
+ - sensores_uv
