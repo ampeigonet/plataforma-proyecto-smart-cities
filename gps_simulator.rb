@@ -22,6 +22,12 @@ else
     coord_array = get_desvio(linea)
 end
 
+description = "Notify pygeoapi of changes in a bus location"
+id_pattern = "Vehicle.*"
+sensor_attributes = ["device_id", "linea", "sublinea", "sentido", "location"]
+notification_attributes = ["location", "linea"]
+create_subscriptions(description, id_pattern, sensor_attributes, notification_attributes)
+
 coord_array.each do |coord|
     send_measurement(device_id, { location: coord.to_s.tr('[]', '') })
 
